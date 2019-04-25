@@ -1,0 +1,69 @@
+{% load static %} <link href="{% static "shelf/main.css" %}" rel="stylesheet"
+type="text/css" media="screen" />
+
+<a href="{% url 'shelf:index' %}">Zurück zum Shelf</a>
+<br />
+{% if folder.parent_folder.id %}
+</br>
+<a href="{% url 'shelf:folder_detail' folder.parent_folder.id %}">
+  Zurück zu {{ folder.parent_folder }}
+</a>
+{% endif %}
+<h1>{{ folder.folder_name }}</h1>
+
+<ul>
+  {% if subfolders %} {% for subfolder in subfolders %}
+  <li>
+    <a href="{% url 'shelf:folder_detail' subfolder.id %}">
+      {{ subfolder.folder_name }} ({{ subfolder.todo_set.all.count}})
+    </a>
+    <form action="{% url 'shelf:delete_folder' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="folder_id" value="{{ subfolder.id }}" />
+      <input type="submit" value="×" class="delete_folder_button" />
+    </form>
+  </li>
+  {% endfor %} {% endif %}
+  <form action="{% url 'shelf:create_folder' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="parent_folder" value="{{ folder.id }}" />
+    <input
+      type="text"
+      name="folder_name"
+      value=""
+      placeholder="Neuen Unterordner anlegen..."
+    />
+    <input type="submit" value="+" class="add_button" />
+  </form>
+</ul>
+<hr size="1" />
+<h2>Todos</h2>
+{% if folder.todo_set.all %}
+<ul>
+  {% for todo in folder.todo_set.all %}
+  <li class="todos">
+    {{ todo.todo_text }}
+    <form action="{% url 'shelf:delete_todo' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="todo_id" value="{{ todo.id }}" />
+      <input type="submit" value="×" class="delete_folder_button" />
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% if error_message %}
+<p>
+  <strong>{{ error_message }}</strong>
+</p>
+{% endif %}
+<form action="{% url 'shelf:create_todo' folder.id %}" method="post">
+  {% csrf_token %}
+  <input
+    type="text"
+    name="todo_text"
+    id="todo_text"
+    value=""
+    placeholder="Neues Todo anlegen..."
+  />
+  <input type="submit" value="+" class="add_button" />
+</form>
