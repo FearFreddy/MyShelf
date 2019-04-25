@@ -1,6 +1,10 @@
-{% load static %} <link href="{% static "shelf/main.css" %}" rel="stylesheet"
-type="text/css" media="screen" />
-
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %} <link href="{% static "shelf/main.css" %}" rel="stylesheet"
+    type="text/css" media="screen" />
+  </head>
+<body>
 <a href="{% url 'shelf:index' %}">Zurück zum Shelf</a>
 <br />
 {% if folder.parent_folder.id %}
@@ -67,3 +71,5 @@ type="text/css" media="screen" />
   />
   <input type="submit" value="+" class="add_button" />
 </form>
+</body>
+</html>
