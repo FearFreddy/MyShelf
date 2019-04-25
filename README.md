@@ -1,11 +1,15 @@
 ## Setup
 
-Follow these four steps to get the project up and running
+Follow these steps to get the project up and running
 
-1. cd myshelf
+1. Clone the repo into the folder of your choice
 
-2. python manage.py migrate
+2. Open the command line and navigate to the repo
 
-3. python manage.py runserver
+3. cd myshelf
 
-4. Open http://localhost:8000/shelf/ in your browser of choice
+4. python manage.py migrate
+
+5. python manage.py runserver
+
+6. Open http://localhost:8000/shelf/ in your browser of choice
