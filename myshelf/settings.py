@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'rp2%wk(79!z_poj_v=4$ld83@fadqi
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['simonfrederik.de']
+ALLOWED_HOSTS = ['floating-brook-45418.herokuapp.com']
 
 
 # Application definition
