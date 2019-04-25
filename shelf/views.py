@@ -17,7 +17,7 @@ def folder_detail(request, folder_id):
 
 def create_todo(request, folder_id):
     folder = get_object_or_404(Folder, pk=folder_id)
-    folder.todo_set.create(todo_text=request.POST.get('todo_text', ''), todo_additional_notes=request.POST.get('todo_additional_notes', ''))
+    folder.todo_set.create(todo_text=request.POST.get('todo_text', ''))
     return HttpResponseRedirect(reverse('shelf:folder_detail', args=(folder.id,)))
 
 def delete_todo(request):
