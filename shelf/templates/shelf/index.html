@@ -8,9 +8,9 @@
     <h1>MyShelf</h1>
     <ul>
       {% if root_folders %} {% for folder in root_folders %}
-      <li>
+      <li class="folder">
         <a href="{% url 'shelf:folder_detail' folder.id %}">
-          {{ folder.folder_name }} ({{ folder.todo_set.all.count }})
+          {{ folder.folder_name }} ({{ folder.todos_inside_count }})
         </a>
         <form action="{% url 'shelf:delete_folder' %}" method="post">
           {% csrf_token %}

@@ -7,12 +7,16 @@ from .models import Folder, Todo
 
 def index(request):
     root_folders = Folder.objects.filter(parent_folder__isnull=True)
+    for root_folder in root_folders:
+        root_folder.todos_inside_count = recursive_count_todos_in_folder(root_folder.id)
     context = {'root_folders': root_folders}
     return render(request, 'shelf/index.html', context)
 
 def folder_detail(request, folder_id):
     folder = get_object_or_404(Folder, pk=folder_id)
     subfolders = Folder.objects.filter(parent_folder=folder_id)
+    for subfolder in subfolders:
+        subfolder.todos_inside_count = recursive_count_todos_in_folder(subfolder.id)
     return render(request, 'shelf/folder_detail.html', {'folder': folder, 'subfolders': subfolders})
 
 def create_todo(request, folder_id):
@@ -42,4 +46,10 @@ def delete_folder(request):
     else:
         return HttpResponseRedirect(reverse('shelf:index'))
 
-        
+def recursive_count_todos_in_folder(folder_id):
+    folder = get_object_or_404(Folder, pk=folder_id)
+    amount = folder.todo_set.count()
+    subfolders = Folder.objects.filter(parent_folder=folder.id)
+    for subfolder in subfolders:
+        amount += recursive_count_todos_in_folder(subfolder.id)
+    return amount
