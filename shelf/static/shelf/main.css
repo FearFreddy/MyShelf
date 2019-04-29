@@ -41,12 +41,12 @@ li * {
 li {
   list-style-type: none;
   padding: 10px;
-  border: 1px solid transparent;
+  border: 1px solid white;
   border-radius: 3px;
   width: max-content;
   margin-right: 10px;
   margin-bottom: 10px;
-  background-color: #ccc;
+  background-color: #4c4c4c;
 }
 li.todos {
   background-color: #ff3b3f;
