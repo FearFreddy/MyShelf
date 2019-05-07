@@ -38,6 +38,9 @@ ul {
 li * {
   display: inline;
 }
+li.folder:nth-child(even) {
+  background-color: #ddd;
+}
 li {
   list-style-type: none;
   padding: 10px;
@@ -46,7 +49,7 @@ li {
   width: max-content;
   margin-right: 10px;
   margin-bottom: 10px;
-  background-color: #666666;
+  background-color: #999;
 }
 li.todos {
   background-color: #ff3b3f;
