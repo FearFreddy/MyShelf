@@ -1,28 +1,35 @@
-{% load static %} <link href="{% static "shelf/main.css" %}" rel="stylesheet"
-type="text/css" media="screen" />
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% load static %} <link href="{% static "shelf/main.css" %}"
+    rel="stylesheet" type="text/css" media="screen" />
+  </head>
+  <body>
+    <h1>MyShelf</h1>
+    <ul>
+      {% if folders %} {% for folder in folders %}
+      <li>
+        <a href="{% url 'shelf:folder_detail' folder.id %}">
+          {{ folder.folder_name }} ({{ folder.todo_set.all.count }})
+        </a>
+        <form action="{% url 'shelf:delete_folder' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="folder_id" value="{{ folder.id }}" />
+          <input type="submit" value="×" class="delete_folder_button" />
+        </form>
+      </li>
+      {% endfor %} {% endif %}
+      <form action="{% url 'shelf:create_folder' %}" method="post">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="folder_name"
+          value=""
+          placeholder="Neuen Ordner anlegen..."
+        />
+        <input type="submit" value="+" class="add_button" />
+      </form>
+    </ul>
 
-<h1>MyShelf</h1>
-<ul>
-  {% if folders %} {% for folder in folders %}
-  <li>
-    <a href="{% url 'shelf:folder_detail' folder.id %}">
-      {{ folder.folder_name }} ({{ folder.todo_set.all.count }})
-    </a>
-    <form action="{% url 'shelf:delete_folder' %}" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="folder_id" value="{{ folder.id }}" />
-      <input type="submit" value="×" class="delete_folder_button" />
-    </form>
-  </li>
-  {% endfor %} {% endif %}
-  <form action="{% url 'shelf:create_folder' %}" method="post">
-    {% csrf_token %}
-    <input
-      type="text"
-      name="folder_name"
-      value=""
-      placeholder="Neuen Ordner anlegen..."
-    />
-    <input type="submit" value="+" class="add_button" />
-  </form>
-</ul>
+  </body>
+</html>

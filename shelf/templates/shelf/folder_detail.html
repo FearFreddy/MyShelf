@@ -1,47 +1,53 @@
-{% load static %}
-<link href="{% static "shelf/main.css" %}" rel="stylesheet" type="text/css" media="screen" />
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% load static %} <link href="{% static "shelf/main.css" %}"
+    rel="stylesheet" type="text/css" media="screen" />
+  </head>
+  <body>
+    <a href="{% url 'shelf:index' %}">Zurück zum Shelf</a>
+    <br />
+    <h1>{{ folder.folder_name }}</h1>
 
-<a href="{% url 'shelf:index' %}">Zurück zum Shelf</a>
-<br />
-<h1>{{ folder.folder_name }}</h1>
+    {% if error_message %}
+    <p>
+      <strong>{{ error_message }}</strong>
+    </p>
+    {% endif %}
 
-{% if error_message %}
-<p>
-  <strong>{{ error_message }}</strong>
-</p>
-{% endif %}
+    {% if folder.todo_set.all %}
+    <ul>
+      {% for todo in folder.todo_set.all|dictsort:"due_date" %}
+      <li class="todos
+        {% if todo.get_remaining_days < 0  %} todo_done 
+        {% elif todo.get_remaining_days < 3 %} todo_urgent 
+        {% elif todo.get_remaining_days < 6 %} todo_soon 
+        {% endif %}">
+        <h4>{{ todo.todo_text }}</h4>
+        <form action="{% url 'shelf:edit_todo' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="todo_id" value="{{ todo.id }}" />
+          <i>fällig am</i>
+          <input type="date" value="{{ todo.due_date|date:'Y-m-d' }}" name="due_date" onchange="this.form.submit()" />
+        </form>
+        <form action="{% url 'shelf:delete_todo' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="todo_id" value="{{ todo.id }}" />
+          <input type="submit" value="×" class="delete_folder_button" />
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
-{% if folder.todo_set.all %}
-<ul>
-  {% for todo in folder.todo_set.all|dictsort:"due_date" %}
-  <li class="todos
-    {% if todo.get_remaining_days < 0  %} todo_done 
-    {% elif todo.get_remaining_days < 3 %} todo_urgent 
-    {% elif todo.get_remaining_days < 6 %} todo_soon 
-    {% endif %}">
-    <h4>{{ todo.todo_text }}</h4>
-    <form action="{% url 'shelf:edit_todo' %}" method="post">
+    <hr />
+
+    <form action="{% url 'shelf:create_todo' folder.id %}" method="post">
       {% csrf_token %}
-      <input type="hidden" name="todo_id" value="{{ todo.id }}" />
-      <i>fällig am</i>
-      <input type="date" value="{{ todo.due_date|date:'Y-m-d' }}" name="due_date" onchange="this.form.submit()" />
+      <input type="text" name="todo_text" id="todo_text" value="" placeholder="Neues Todo anlegen..." required />
+      <span>fällig am</span>
+      <input type="date" name="due_date" id="date_field" required />
+      <input type="submit" value="+" class="add_button" />
     </form>
-    <form action="{% url 'shelf:delete_todo' %}" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="todo_id" value="{{ todo.id }}" />
-      <input type="submit" value="×" class="delete_folder_button" />
-    </form>
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-<hr />
-
-<form action="{% url 'shelf:create_todo' folder.id %}" method="post">
-  {% csrf_token %}
-  <input type="text" name="todo_text" id="todo_text" value="" placeholder="Neues Todo anlegen..." required />
-  <span>fällig am</span>
-  <input type="date" name="due_date" id="date_field" required />
-  <input type="submit" value="+" class="add_button" />
-</form>
+  </body>
+</html>
