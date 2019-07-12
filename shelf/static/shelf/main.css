@@ -59,6 +59,11 @@ li.todos {
   justify-content: center;
   align-items: center;
 }
+li.todos form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 li.todos.todo_done {
   background-color: red;
 }
