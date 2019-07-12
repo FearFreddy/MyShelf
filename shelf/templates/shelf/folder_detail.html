@@ -27,7 +27,7 @@
         <form action="{% url 'shelf:edit_todo' %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="todo_id" value="{{ todo.id }}" />
-          <i>fällig am</i>
+          <i>bis</i>
           <input type="date" value="{{ todo.due_date|date:'Y-m-d' }}" name="due_date" onchange="this.form.submit()" />
         </form>
         <form action="{% url 'shelf:delete_todo' %}" method="post">
@@ -45,7 +45,7 @@
     <form action="{% url 'shelf:create_todo' folder.id %}" method="post">
       {% csrf_token %}
       <input type="text" name="todo_text" id="todo_text" value="" placeholder="Neues Todo anlegen..." required />
-      <span>fällig am</span>
+      <p>fällig am</p>
       <input type="date" name="due_date" id="date_field" required />
       <input type="submit" value="+" class="add_button" />
     </form>

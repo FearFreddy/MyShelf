@@ -4,7 +4,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 html {
-  background-color: dimgrey;
+  background-color: white;
 }
 body {
   text-align: center;
@@ -28,6 +28,7 @@ h1 {
 }
 h4 {
   margin: 5px;
+  margin-right: 10px;
 }
 hr {
   width: 20%;
@@ -54,6 +55,9 @@ li {
 }
 li.todos {
   background-color: lightgreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 li.todos.todo_done {
   background-color: red;

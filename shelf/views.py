@@ -15,7 +15,10 @@ def folder_detail(request, folder_id):
 
 def create_todo(request, folder_id):
     folder = get_object_or_404(Folder, pk=folder_id)
-    folder.todo_set.create(todo_text=request.POST.get('todo_text', ''), due_date=request.POST.get('due_date', ''))
+    due_date = datetime.now() + timedelta(hours=24)
+    if (request.POST.get('due_date') != ''):
+        due_date = request.POST.get('due_date')
+    folder.todo_set.create(todo_text=request.POST.get('todo_text', ''), due_date=due_date)
     return HttpResponseRedirect(reverse('shelf:folder_detail', args=(folder.id,)))
 
 def edit_todo(request):

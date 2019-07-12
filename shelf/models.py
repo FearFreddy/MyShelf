@@ -12,7 +12,7 @@ class Folder(models.Model):
 class Todo(models.Model):
     in_folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     todo_text = models.CharField(max_length=500)
-    due_date = models.DateTimeField(default=datetime.now() + timedelta(hours=24))
+    due_date = models.DateTimeField()
     def get_remaining_days(self):
         return get_remaining_days_from_datetime(self.due_date)
     def __str__(self):
